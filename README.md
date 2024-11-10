@@ -22,15 +22,19 @@ The **Employee Payroll Management Web Application** is designed to help manage e
 
 ### Clone the Repository
 ```bash
-$ git clone https://github.com/your-username/employee-payroll-management.git
-$ cd employee-payroll-management
+git clone https://github.com/your-username/employee-payroll-management.git
+cd employee-payroll-management
 ```
 ### Required dependencies
 ```bash
-$ pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 ### To run the server
 ```bash
-$ flask run
+flask run
+```
+### Documentation
+```bash
+https://github.com/sachin-bharadvaj/employee-payroll-management/blob/main/EMPLOYEE_PAYROLL.docx
 ```
 
