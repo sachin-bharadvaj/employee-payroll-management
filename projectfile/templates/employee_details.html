@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Details - Employee Payroll Management</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .navbar {
+            background-color: #007bff;
+            overflow: hidden;
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: #fff;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .navbar a:hover {
+            background-color: #575757;
+            color: white;
+        }
+
+        .navbar .logout {
+            float: right;
+            background-color: #f44336;
+        }
+
+        .content {
+            width: 100%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        .header h2 {
+            text-align: center;
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            max-width: 100%;  /* Ensure the table fits within the content width */
+            border-collapse: collapse;
+            margin-top: 20px;
+            table-layout: fixed;  /* Ensure table columns adjust to fit */
+            word-wrap: break-word;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* For larger content, allow horizontal scroll */
+        .content {
+            overflow-x: auto;
+        }
+
+        /* Button Styling */
+        .edit-button {
+            background-color: #4CAF50;
+            color: white;
+            margin-right: 5px;
+        }
+
+        .edit-button:hover {
+            background-color: #45a049;
+        }
+
+        .delete-button {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .delete-button:hover {
+            background-color: #e53935;
+        }
+
+        /* Responsive design */
+        @media screen and (max-width: 768px) {
+            .content {
+                padding: 15px;
+            }
+
+            table {
+                width: 100%;
+                table-layout: auto;  /* Allow table to adjust for smaller screens */
+            }
+
+            .navbar a {
+                float: none;
+                display: block;
+                text-align: left;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            th, td {
+                font-size: 12px;
+                padding: 8px;
+            }
+
+            .edit-button, .delete-button {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+        }
+    </style>
+
+    <!-- JavaScript Confirmation -->
+    <script>
+        function confirmDelete(event, employeeId) {
+            event.preventDefault();
+            const userConfirmed = confirm("Are you sure you want to delete this employee?");
+            
+            if (userConfirmed) {
+                fetch(`/delete-employee/${employeeId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert("Employee deleted successfully!");
+                        // Reload or remove the deleted employee row from the table without refreshing the page
+                        event.target.closest('tr').remove();
+                    } else {
+                        alert("Failed to delete employee. Please try again.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("An error occurred while deleting the employee.");
+                });
+            }
+        }
+    </script>
+    
+</head>
+<body>
+    <div class="navbar">
+        <a href="{{ url_for('admin_interface') }}">Home</a>
+        <a href="{{ url_for('employee_details') }}">Employee Details</a>
+        <a href="{{ url_for('add_employee') }}">Add Employee</a>
+        <a href="{{ url_for('salary') }}">Salary</a>
+        <a href="{{ url_for('admin_leaves') }}">View Leaves</a>
+        <a href="{{ url_for('login') }}" class="logout">Logout</a>
+    </div>
+
+    <div class="content">
+        <div class="header">
+            <h2>Employee Details</h2>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Gender</th>
+                    <th>Date of Birth</th>
+                    <th>Phone Number</th>
+                    <th>Joining Date</th>
+                    <th>Address</th>
+                    <th>Basic Salary</th>
+                    <th>HRA</th>
+                    <th>Allowances</th>
+                    <th>Deductions</th>
+                    <th>Employee ID</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for employee in employees %}
+                <tr>
+                    <td>{{ employee.full_name }}</td>
+                    <td>{{ employee.email }}</td>
+                    <td>{{ employee.gender }}</td>
+                    <td>{{ employee.dob }}</td>
+                    <td>{{ employee.phone_number }}</td>
+                    <td>{{ employee.joining_date }}</td>
+                    <td>{{ employee.address }}</td>
+                    <td>{{ employee.basic_salary }}</td>
+                    <td>{{ employee.hra }}</td>
+                    <td>{{ employee.allowances }}</td>
+                    <td>{{ employee.deductions }}</td>
+                    <td>{{ employee.employee_id }}</td>
+                    <td>
+                        <form onsubmit="confirmDelete(event, '{{ employee._id }}')">
+                            <button type="submit" class="delete-button">Delete</button>
+                        </form>
+                    </td>                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>        
+    </div>
+</body>
+</html>

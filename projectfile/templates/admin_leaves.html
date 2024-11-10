@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - View Employee Leaves</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .navbar {
+            background-color: #007bff;
+            overflow: hidden;
+            height: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+            display: block;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+
+        .navbar a:hover {
+            background-color: rgba(211, 211, 211, 0.3);
+        }
+
+        .logout {
+            background-color: red;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .content {
+            padding: 20px;
+            max-width: 100%;
+            margin: auto;
+            background-color: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed; /* Prevents overflow */
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #020202;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        td {
+            word-wrap: break-word; /* Ensures long text doesn't overflow */
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .btn-approve, .btn-reject {
+            padding: 8px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-approve {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-reject {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-approve:hover, .btn-reject:hover {
+            opacity: 0.9;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        td.action-col {
+            min-width: 160px; /* Ensures enough space for buttons */
+        }
+
+        .feedback-input {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        td.feedback-col {
+            max-width: 200px; /* Adjust as needed */
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-left">
+            <a href="{{ url_for('admin_interface') }}">Home</a>
+            <a href="{{ url_for('employee_details') }}">Employee Details</a>
+            <a href="{{ url_for('add_employee') }}">Add Employee</a>
+            <a href="{{ url_for('salary') }}">Salary</a>
+            <a href="{{ url_for('admin_leaves') }}">View Leaves</a>
+        </div>
+        <a href="{{ url_for('logout') }}" class="logout">Logout</a>
+    </div>
+
+    <div class="content">
+        <h1>Employee Leave Applications</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Employee ID</th>
+                    <th>Leave Type</th>
+                    <th>From Date</th>
+                    <th>To Date</th>
+                    <th>Message</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for leave in leaves %}
+                <tr>
+                    <td>{{ leave['employee_id'] }}</td>
+                    <td>{{ leave['leave_type'] }}</td>
+                    <td>{{ leave['from_date'] }}</td>
+                    <td>{{ leave['to_date'] }}</td>
+                    <td>{{ leave['message'] }}</td>
+                    <td>{{ leave['leave_status'] }}</td>
+                    <td>
+                        <form method="POST">
+                            <input type="hidden" name="leave_id" value="{{ leave['_id'] }}">
+                            <button type="submit" name="action" value="approve" class="btn-approve">Approve</button>
+                            <button type="submit" name="action" value="reject" class="btn-reject">Reject</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

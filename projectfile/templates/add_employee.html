@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Employee - Employee Payroll Management</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            height: 50px;
+            width: 100%;
+            background-color: #007bff;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+        .navbar a:hover:not(.logout) {
+            background-color: rgba(192, 192, 192, 0.3); 
+        }
+        .navbar .logout {
+            margin-left: auto;
+            background-color: red;
+            color: white;
+            border-radius: 5px;
+            padding: 10px 15px;
+            margin-right: 30px;
+        }
+        .content {
+            padding: 20px;
+        }
+        form {
+            max-width: 700px;
+            margin: auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="date"],
+        select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        p {
+            margin-bottom: 5px;
+        }
+        .content h2{
+            text-align: center;
+        }
+        .flash-message {
+            width: 100%;
+            position: relative;
+            top: 0;
+            z-index: 1050;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="{{ url_for('admin_interface') }}">Home</a>
+        <a href="{{ url_for('employee_details') }}">Employee Details</a>
+        <a href="{{ url_for('add_employee') }}">Add Employee</a>
+        <a href="{{ url_for('salary') }}">Salary</a>
+        <a href="{{ url_for('admin_leaves') }}">View Leaves</a>
+        <a href="{{ url_for('login') }}" class="logout">Logout</a>
+    </div>
+
+    <!-- Flash Messages -->
+    <div class="flash-message">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="container mt-2">
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+    </div>
+
+    <div class="content">
+        <h2>Add Employee</h2>
+        <form action="{{ url_for('add_employee') }}" method="POST">
+            <div class="form-group">
+                <label for="fullname">Full Name</label>
+                <input type="text" id="fullname" name="fullname" placeholder="Enter fullname" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password</label>
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm password" required>
+            </div>
+            <div class="form-group">
+                <label for="employee_id">Employee ID</label>
+                <input type="text" id="employee_id" name="employee_id" placeholder="Enter Employee ID" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="example@gmail.com" required>
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender" name="gender" required>
+                    <option value="select">-select-</option>
+                    <option value="female">Female</option>
+                    <option value="male">Male</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="dob">DOB</label>
+                <input type="date" id="dob" name="dob" placeholder="DD/MM/YYYY">
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="Enter 10 Digit Number" required>
+            </div>
+            <div class="form-group">
+                <label for="joining_date">Joining Date</label>
+                <input type="date" id="joining_date" name="joining_date" placeholder="DD/MM/YYYY">
+            </div>
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" id="address" name="address" placeholder="Enter the Address" required>
+            </div>
+            <!-- Salary Details Section -->
+            <div class="form-group">
+                <label for="basic_salary">Basic Salary</label>
+                <input type="text" id="basic_salary" name="basic_salary" placeholder="Enter Basic Salary" required>
+            </div>
+            <div class="form-group">
+                <label for="hra">HRA</label>
+                <input type="text" id="hra" name="hra" placeholder="Enter HRA" required>
+            </div>
+            <div class="form-group">
+                <label for="allowances">Allowances</label>
+                <input type="text" id="allowances" name="allowances" placeholder="Enter Allowances" required>
+            </div>
+            <div class="form-group">
+                <label for="deductions">Deductions</label>
+                <input type="text" id="deductions" name="deductions" placeholder="Enter Deductions" required>
+            </div>
+            <div class="form-group">
+                <label for="bonuses">Bonuses</label>
+                <input type="text" id="bonuses" name="bonuses" placeholder="Enter Bonuses">
+            </div>
+            <button type="submit">Add Employee</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

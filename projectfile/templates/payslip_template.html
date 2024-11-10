@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Payslip</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .payslip-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .payslip-section {
+            margin-bottom: 10px;
+        }
+        .payslip-section p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="payslip-header">
+        <h2>Payslip for {{ user.full_name }}</h2>
+        <p>Date: {{ datetime.datetime.now().strftime('%Y-%m-%d') }}</p>
+    </div>
+    <div class="payslip-section">
+        <p><strong>Employee ID:</strong> {{ user.employee_id }}</p>
+        <p><strong>Basic Salary:</strong> {{ user.basic_salary }}</p>
+        <p><strong>HRA:</strong> {{ user.hra }}</p>
+        <p><strong>Allowances:</strong> {{ user.allowances }}</p>
+        <p><strong>Deductions:</strong> {{ user.deductions }}</p>
+        <p><strong>Bonuses:</strong> {{ user.bonuses }}</p>
+        <p><strong>Net Salary:</strong> {{ user.basic_salary + user.hra + user.allowances - user.deductions + user.bonuses }}</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Flask Admin User System{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <script>
+        const light = new THREE.AmbientLight( ff0000 ); // soft white light
+        scene.add( light );
+    </script>
+</head>
+<body>
+
+    <!-- Transparent Navigation Bar -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            
+            {% if 'employee_id' in session %}
+                {% if session['role'] == 'admin' %}
+                    <li><a href="{{ url_for('admin_interface') }}">Admin Dashboard</a></li>
+                    <li><a href="{{ url_for('employee_details') }}">Manage Employees</a></li>
+                    <li><a href="{{ url_for('salary') }}">Salary Details</a></li>
+                {% elif session['role'] == 'user' %}
+                    <li><a href="{{ url_for('user_interface') }}">User Dashboard</a></li>
+                    <li><a href="{{ url_for('user_leaves') }}">Leaves</a></li>
+                    <li><a href="{{ url_for('profile') }}">Profile</a></li>
+                {% endif %}
+                <li><a href="{{ url_for('logout') }}" class="logout">Logout</a></li>
+                <li><span>Logged in as: {{ session['employee_id'] }} ({{ session['role'].capitalize() }})</span></li>
+            {% else %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li><a href="{{ url_for('register') }}">Create an Account</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <!-- Flash Messages -->
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Main Heading -->
+    <header class="main-heading">
+        <h1>Employee Payroll Management</h1>
+    </header>
+
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Employee Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .navbar {
+            height: 50px;
+            width: 100%;
+            background-color: #007bff;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+        .navbar a:hover:not(.logout) {
+            background-color: rgba(192, 192, 192, 0.3);
+        }
+        .navbar .logout {
+            margin-left: auto;
+            background-color: red;
+            color: white;
+            border-radius: 5px;
+            padding: 10px 15px;
+            margin-right: 25px;
+        }
+        .content {
+            padding: 20px;
+        }
+        .footer {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            bottom: 0;
+            width: 100%;
+        }
+        .footer h3 {
+            margin: 0;
+            margin-bottom: 10px;
+        }
+        .footer p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        .content img {
+            height: 600px;
+            width: 100%;
+            border-radius: 15px;
+            border-color: black;
+        }
+        .content img:hover {
+            border: 3px solid black;
+            transform: scale(1.02);
+        }
+        .navbar p{
+            font-family: "Yeseva One";
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <p>Mployee  | </p>
+        <a href="{{ url_for('user_interface') }}">Home</a>
+        <a href="{{ url_for('user_leaves') }}">Leaves</a>
+        <a href="{{ url_for('profile') }}">Profile</a>
+        <a href="{{ url_for('logout') }}" class="logout">Logout</a>
+    </div>
+    <div class="content">
+        <h1>Welcome to User!</h1>
+        <img src="{{ url_for('static',filename='hero.png') }}" alt="No image found">
+        <p>Creating an employee payroll and expenses management website can significantly streamline various administrative tasks for businesses. Automated payroll processing allows for the calculation of salaries based on hours worked, overtime, bonuses, and deductions, ensuring accurate tax calculations and timely submissions to tax authorities. It also facilitates direct deposit of salaries into employee bank accounts. Expense management features enable employees to submit expense reports online, including receipts and other documentation, with multi-level approval workflows to ensure proper authorization and automate the reimbursement process. Employee self-service options provide online access to payslips and tax documents, allow for leave applications and tracking, and enable profile management for updating personal information and banking details. Compliance and reporting features ensure regulatory compliance through automated updates and alerts, and generate custom reports for management, including payroll summaries, expense reports, and compliance reports.
+
+            The advantages of such a system include increased efficiency and accuracy by reducing human errors in payroll and expense calculations and saving time by automating repetitive tasks. This leads to cost savings by lowering administrative costs and allowing for easy scalability as the business grows. Improved employee satisfaction is achieved through transparency and convenience, offering clear and timely information about pay and expenses and empowering employee</p>
+    </div>
+
+    <div class="footer">
+        <h3>Contact Us</h3>
+        <p>Phone: +91 9441799717</p>
+        <p>Email: vsbharadvaj17@gmail.com</p>
+    </div>
+</body>
+</html>
