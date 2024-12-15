@@ -22,7 +22,7 @@ The **Employee Payroll Management Web Application** is designed to help manage e
 
 ### Clone the Repository
 ```bash
-git clone https://github.com/your-username/employee-payroll-management.git
+git clone https://github.com/sachin-bharadvaj/employee-payroll-management.git
 cd employee-payroll-management
 ```
 ### Required dependencies
